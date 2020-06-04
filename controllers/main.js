@@ -1,5 +1,5 @@
 const getTableData = (req, res, db) => {
-  db.select('*').from('testtable1')
+  db.select('*').from('items')
     .then(items => {
       if(items.length){
         res.json(items)
@@ -12,8 +12,9 @@ const getTableData = (req, res, db) => {
 
 const postTableData = (req, res, db) => {
   const { first, last, email, phone, location, hobby } = req.body
+  console.log("********   ", req.body)
   const added = new Date()
-  db('testtable1').insert({first, last, email, phone, location, hobby, added})
+  db('items').insert({first, last, email, phone, location, hobby, added})
     .returning('*')
     .then(item => {
       res.json(item)
@@ -23,7 +24,7 @@ const postTableData = (req, res, db) => {
 
 const putTableData = (req, res, db) => {
   const { id, first, last, email, phone, location, hobby } = req.body
-  db('testtable1').where({id}).update({first, last, email, phone, location, hobby})
+  db('items').where({id}).update({first, last, email, phone, location, hobby})
     .returning('*')
     .then(item => {
       res.json(item)
@@ -33,7 +34,7 @@ const putTableData = (req, res, db) => {
 
 const deleteTableData = (req, res, db) => {
   const { id } = req.body
-  db('testtable1').where({id}).del()
+  db('items').where({id}).del()
     .then(() => {
       res.json({delete: 'true'})
     })
